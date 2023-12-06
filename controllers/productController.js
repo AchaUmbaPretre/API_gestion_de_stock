@@ -88,3 +88,31 @@ exports.postCategorie = (req, res) => {
       }
     });
   };
+
+  exports.getEmplacement = (req, res) => {
+
+    const q = "SELECT * FROM emplacement WHERE est_supprime = 0";
+     
+    db.query(q, (error, data) => {
+        if (error) res.status(500).send(error);
+        return res.status(200).json(data);
+    });
+}
+
+exports.postEmplacement = (req, res) => {
+    const q = 'INSERT INTO emplacement(`nom`, `capacite`) VALUES(?)';
+  
+    const values = [
+        req.body.nom,
+        req.body.capacite
+    ]
+  i
+    db.query(q, values, (error, data) => {
+      if (error) {
+        res.status(500).json(error);
+        console.log(error);
+      } else {
+        res.json('Processus réussi');
+      }
+    });
+  };
