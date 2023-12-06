@@ -14,7 +14,7 @@ exports.getProduit = (req, res) => {
     });
 };
 
-exports.postEmploye = (req, res) => {
+exports.postProduit = (req, res) => {
     const q = 'INSERT INTO produits(`nom_produit`,`couleur`,`matiere`,`pointure`,`categorie`,`img`) VALUES(?)';
     const values = [
         req.body.nom_produit,
@@ -52,3 +52,39 @@ exports.postEmploye = (req, res) => {
       }
     });
 }
+
+exports.deleteProduit = (req, res) => {
+    const employeeId = req.params.id;
+    const q = "UPDATE produits SET est_supprime = 1 WHERE id = ?";
+  
+    db.query(q, [employeeId], (err, data) => {
+      if (err) return res.send(err);
+      return res.json(data);
+    });
+  };
+
+
+exports.getCategorie = (req, res) => {
+
+    const q = "SELECT * FROM categories WHERE est_supprime = 0";
+     
+    db.query(q, (error, data) => {
+        if (error) res.status(500).send(error);
+        return res.status(200).json(data);
+    });
+}
+
+exports.postCategorie = (req, res) => {
+    const q = 'INSERT INTO categories (`nom_categorie`) VALUES (?)';
+  
+    const { nom_categorie } = req.body;
+  
+    db.query(q, [nom_categorie], (error, data) => {
+      if (error) {
+        res.status(500).json(error);
+        console.log(error);
+      } else {
+        res.json('Processus réussi');
+      }
+    });
+  };
