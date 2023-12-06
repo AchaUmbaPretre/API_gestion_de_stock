@@ -100,13 +100,12 @@ exports.postCategorie = (req, res) => {
 }
 
 exports.postEmplacement = (req, res) => {
-    const q = 'INSERT INTO emplacement(`nom`, `capacite`) VALUES(?)';
+    const q = 'INSERT INTO emplacement(`nom`, `capacite`) VALUES(?,?)';
   
     const values = [
         req.body.nom,
         req.body.capacite
     ]
-  i
     db.query(q, values, (error, data) => {
       if (error) {
         res.status(500).json(error);
