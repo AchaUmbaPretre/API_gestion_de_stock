@@ -75,7 +75,7 @@ exports.getCategorie = (req, res) => {
 }
 
 exports.postCategorie = (req, res) => {
-    const q = 'INSERT INTO categories (`nom_categorie`) VALUES (?)';
+    const q = 'INSERT INTO categories(`nom_categorie`) VALUES (?)';
   
     const { nom_categorie } = req.body;
   

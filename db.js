@@ -4,7 +4,7 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'actiondrc'
+    database: 'gestion_de_stock'
 });
 
 module.exports = { db };

@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const authRoute = require('./routes/auth');
 const adminRoute = require('./routes/admin');
 const usersRoute = require('./routes/users');
+const produitsRoute = require('./routes/product');
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(cookieParser());
 app.use('/api/auth', authRoute);
 app.use('/api/admin', adminRoute);
 app.use('/api/users', usersRoute);
+app.use('/api/produit', produitsRoute);
 
 app.post('/api/upload', (req, res) => {
   const { imageBase64 } = req.body;
