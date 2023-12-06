@@ -18,7 +18,7 @@ exports.postEmploye = (req, res) => {
     const q = 'INSERT INTO produits(`nom_produit`,`couleur`,`matiere`,`pointure`,`categorie`,`img`) VALUES(?)';
     const values = [
         req.body.nom_produit,
-        req.body.coleur,
+        req.body.couleur,
         req.body.matiere,
         req.body.pointure,
         req.body.categorie,
@@ -32,12 +32,10 @@ exports.postEmploye = (req, res) => {
       } else {
 
         const productId = data.insertId;
-        const shoeQ = 'INSERT INTO chaussures(produit_id, couleur, matiere, pointure, emplacement, prix)';
+        const shoeQ = 'INSERT INTO chaussures(produit_id, quantite_stock, emplacement, prix) VALUES(?)';
         const shoeValues = [
             productId,
-            req.body.coleur,
-            req.body.matiere,
-            req.body.pointure,
+            req.body.quantite_stock,
             req.body.emplacement,
             req.body.prix
           ];
