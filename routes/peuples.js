@@ -1,10 +1,12 @@
 const express = require('express')
+const { getClient, postClient, putClient, deleteClient } = require('../controllers/peupleControllers')
 
 const router = express.Router()
 
-router.get('/client', getProduit)
-router.post('/client', postProduit)
-router.put('/client', deleteProduit)
+router.get('/client', getClient)
+router.post('/client', postClient)
+router.delete('/client', deleteClient)
+router.put('/client', putClient)
 
 router.get('/livreur', getProduit)
 router.post('/livreur', postProduit)
