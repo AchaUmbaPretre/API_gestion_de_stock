@@ -24,7 +24,7 @@ app.use('/api/users', usersRoute);
 app.use('/api/produit', produitsRoute);
 app.use('/api/peuple', peuplesRoute);
 app.use('/api/vente', ventesRoute);
-app.use('/api/rapport', produitsRoute);
+app.use('/api/rapport', rapportRoute);
 
 app.post('/api/upload', (req, res) => {
   const { imageBase64 } = req.body;
