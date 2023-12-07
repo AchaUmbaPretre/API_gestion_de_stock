@@ -6,13 +6,27 @@ const moment = require('moment');
 dotenv.config();
 
 exports.getProduit = (req, res) => {
-    const q = "SELECT * FROM produits WHERE est_supprime = 0";
+
+    const q = 'SELECT * FROM produits INNER JOIN chaussures ON produits.id = chaussures.produit_id INNER JOIN categories ON produits.categorie = categories.id';
      
     db.query(q, (error, data) => {
         if (error) res.status(500).send(error);
         return res.status(200).json(data);
     });
 };
+
+exports.getProduitView = (req,res) => {
+    const {id} = req.params;
+    const q = 'SELECT * FROM produits INNER JOIN chaussures ON produits.id = chaussures.produit_id INNER JOIN categories ON produits.categorie = categories.id WHERE produits.id = ?';
+
+    db.query(q, id, (error, data) => {
+        if (error) {
+          res.status(500).send(error);
+        } else {
+          res.status(200).json(data);
+        }
+      });
+}
 
 exports.postProduit = (req, res) => {
     const q = 'INSERT INTO produits(`nom_produit`,`couleur`,`matiere`,`pointure`,`categorie`,`img`) VALUES(?)';
@@ -32,7 +46,7 @@ exports.postProduit = (req, res) => {
       } else {
 
         const productId = data.insertId;
-        const shoeQ = 'INSERT INTO chaussures(produit_id, quantite_stock, emplacement, prix) VALUES(?)';
+        const shoeQ = 'INSERT INTO chaussures(produit_id, quantite_stock, emplacement, prix) VALUES(?,?,?,?)';
         const shoeValues = [
             productId,
             req.body.quantite_stock,
@@ -82,6 +96,16 @@ exports.putProduit = (req, res)=> {
 }
 
 
+//Couleur
+exports.getCouleur = (req, res) => {
+
+    const q = "SELECT * FROM couleur";
+     
+    db.query(q, (error, data) => {
+        if (error) res.status(500).send(error);
+        return res.status(200).json(data);
+    });
+}
 
 //Categorie
 exports.getCategorie = (req, res) => {
