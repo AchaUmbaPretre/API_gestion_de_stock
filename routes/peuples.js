@@ -5,16 +5,16 @@ const router = express.Router()
 
 router.get('/client', getClient)
 router.post('/client', postClient)
-router.delete('/client', deleteClient)
-router.put('/client', putClient)
+router.delete('/clientDelete/:id', deleteClient)
+router.put('/client/:id', putClient)
 
 router.get('/livreur', getLivreur)
 router.post('/livreur', postLivreur)
-router.put('/livreur', deleteLivreur)
-router.put('/livreur', putLivreur)
+router.put('/livreurDelete/:id', deleteLivreur)
+router.put('/livreur/:id', putLivreur)
 
 router.get('/utilisateur')
 router.post('/utilisateur')
-router.put('/utilisateur')
+router.put('/utilisateur/:id')
 
 module.exports = router;

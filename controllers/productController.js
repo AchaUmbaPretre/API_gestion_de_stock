@@ -157,3 +157,17 @@ exports.postEmplacement = (req, res) => {
       return res.json(data);
     })
   };
+
+  exports.putEmplacement = (req, res) => {
+    const {id} = req.params;
+  const q = "UPDATE emplacement SET `nom`= ?, `capacite= ? WHERE id = ?"
+  const values = [
+    req.body.nom,
+    req.body.capacite
+    ]
+
+  db.query(q, [...values,id], (err, data) => {
+      if (err) return res.send(err);
+      return res.json(data);
+    });
+}
