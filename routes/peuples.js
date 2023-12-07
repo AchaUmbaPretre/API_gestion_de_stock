@@ -1,5 +1,5 @@
 const express = require('express')
-const { getClient, postClient, putClient, deleteClient } = require('../controllers/peupleControllers')
+const { getClient, postClient, putClient, deleteClient, getLivreur, postLivreur, deleteLivreur, putLivreur } = require('../controllers/peupleControllers')
 
 const router = express.Router()
 
@@ -8,12 +8,13 @@ router.post('/client', postClient)
 router.delete('/client', deleteClient)
 router.put('/client', putClient)
 
-router.get('/livreur', getProduit)
-router.post('/livreur', postProduit)
-router.put('/livreur', deleteProduit)
+router.get('/livreur', getLivreur)
+router.post('/livreur', postLivreur)
+router.put('/livreur', deleteLivreur)
+router.put('/livreur', putLivreur)
 
-router.get('/utilisateur', getProduit)
-router.post('/utilisateur', postProduit)
-router.put('/utilisateur', deleteProduit)
+router.get('/utilisateur')
+router.post('/utilisateur')
+router.put('/utilisateur')
 
 module.exports = router;
