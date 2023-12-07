@@ -64,6 +64,8 @@ exports.deleteProduit = (req, res) => {
   };
 
 
+
+//Categorie
 exports.getCategorie = (req, res) => {
 
     const q = "SELECT * FROM categories WHERE est_supprime = 0";
@@ -89,7 +91,10 @@ exports.postCategorie = (req, res) => {
     });
   };
 
-  exports.getEmplacement = (req, res) => {
+
+//Emplacement
+
+exports.getEmplacement = (req, res) => {
 
     const q = "SELECT * FROM emplacement WHERE est_supprime = 0";
      

@@ -6,7 +6,6 @@ const moment = require('moment');
 dotenv.config();
 
 //Client
-
 exports.getClient = (req, res) => {
     const q = "SELECT * FROM clients WHERE est_supprime = 0";
      
@@ -95,9 +94,26 @@ exports.postLivreur = (req, res) => {
 }
 
 exports.deleteLivreur = (req, res) => {
-    
+    const {id} = req.params;
+    const q = "DELETE FROM livreur WHERE id = ?"
+  
+    db.query(q, [id], (err, data)=>{
+        if (err) return res.send(err);
+      return res.json(data);
+    })
 }
 
 exports.putLivreur = (req, res) => {
-    
+    const livreurId = req.params.id;
+    const q = "UPDATE clients SET `nom`= ?, `numero`= ?, `adresse`= ? WHERE id = ?"
+    const values = [
+        req.body.nom,
+        req.body.numero,
+        req.body.adresse
+    ]
+  
+    db.query(q, [...values,livreurId], (err, data) => {
+        if (err) return res.send(err);
+        return res.json(data);
+      });
 }
