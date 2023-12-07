@@ -15,6 +15,6 @@ router.put('/livreur/:id', putLivreur)
 
 router.get('/utilisateur', getUtilisateur)
 router.post('/utilisateur',postUtilisateur)
-router.put('/utilisateur/:id', putUtilisateur)
+router.delete('/utilisateur/:id', putUtilisateur)
 
 module.exports = router;
