@@ -6,6 +6,9 @@ const authRoute = require('./routes/auth');
 const adminRoute = require('./routes/admin');
 const usersRoute = require('./routes/users');
 const produitsRoute = require('./routes/product');
+const peuplesRoute = require('./routes/peuples');
+const ventesRoute = require('./routes/ventes');
+const rapportRoute = require('./routes/rapport');
 
 const app = express();
 
@@ -19,6 +22,9 @@ app.use('/api/auth', authRoute);
 app.use('/api/admin', adminRoute);
 app.use('/api/users', usersRoute);
 app.use('/api/produit', produitsRoute);
+app.use('/api/peuple', peuplesRoute);
+app.use('/api/vente', ventesRoute);
+app.use('/api/rapport', produitsRoute);
 
 app.post('/api/upload', (req, res) => {
   const { imageBase64 } = req.body;
