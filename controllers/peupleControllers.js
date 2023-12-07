@@ -16,7 +16,7 @@ exports.getClient = (req, res) => {
 }
 
 exports.postClient = (req, res) => {
-    const q = 'INSERT INTO clients(`nom`, `raison_sociale`, `adresse`, `ville`, `telephone`, `email`) VALUES(?)';
+    const q = 'INSERT INTO clients(`nom`, `raison_sociale`, `adresse`, `ville`, `telephone`, `email`) VALUES(?,?,?,?,?,?)';
   
     const values = [
         req.body.nom,
@@ -77,10 +77,11 @@ exports.getLivreur = (req, res) => {
 }
 
 exports.postLivreur = (req, res) => {
-    const q = 'INSERT INTO livreur(`nom`, `numero`, `adresse`) VALUES(?)';
+    const q = 'INSERT INTO livreur(`nom`, `prenom`, `numero`, `adresse`) VALUES(?,?,?,?)';
   
     const values = [
         req.body.nom,
+        req.body.prenom,
         req.body.numero,
         req.body.adresse
     ]
