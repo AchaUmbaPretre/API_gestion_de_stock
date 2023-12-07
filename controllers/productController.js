@@ -109,7 +109,7 @@ exports.postCategorie = (req, res) => {
     });
   };
 
-  exports.deleteCategorie = (req, res) => {
+exports.deleteCategorie = (req, res) => {
     const {id} = req.params;
     const q = "DELETE FROM categories WHERE id = ?"
   
@@ -118,6 +118,18 @@ exports.postCategorie = (req, res) => {
       return res.json(data);
     })
   };
+
+  exports.putCategorie = (req, res) => {
+    const {id} = req.params;
+  const q = "UPDATE categories SET `nom_categorie`= ? WHERE id = ?"
+  const { nom_categorie } = req.body;
+ 
+
+  db.query(q, [nom_categorie,id], (err, data) => {
+      if (err) return res.send(err);
+      return res.json(data);
+    });
+}
 
 
 //Emplacement
@@ -148,7 +160,7 @@ exports.postEmplacement = (req, res) => {
     });
   };
 
-  exports.deleteEmplacement = (req, res) => {
+exports.deleteEmplacement = (req, res) => {
     const {id} = req.params;
     const q = "DELETE FROM emplacement WHERE id = ?"
   
@@ -158,7 +170,7 @@ exports.postEmplacement = (req, res) => {
     })
   };
 
-  exports.putEmplacement = (req, res) => {
+exports.putEmplacement = (req, res) => {
     const {id} = req.params;
   const q = "UPDATE emplacement SET `nom`= ?, `capacite= ? WHERE id = ?"
   const values = [
