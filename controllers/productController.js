@@ -63,6 +63,24 @@ exports.deleteProduit = (req, res) => {
     });
   };
 
+exports.putProduit = (req, res)=> {
+    const {id} = req.params;
+    const q = "UPDATE produits SET `nom_produit`= ?, `couleur`= ?, `matiere`= ?, `pointure`= ?, `categorie`= ?, `img`= ? WHERE id = ?"
+    const values = [
+        req.body.nom_produit,
+        req.body.couleur,
+        req.body.matiere,
+        req.body.pointure,
+        req.body.categorie,
+        req.body.img
+    ]
+  
+    db.query(q, [...values,id], (err, data) => {
+        if (err) return res.send(err);
+        return res.json(data);
+      });
+}
+
 
 
 //Categorie
@@ -93,7 +111,6 @@ exports.postCategorie = (req, res) => {
 
 
 //Emplacement
-
 exports.getEmplacement = (req, res) => {
 
     const q = "SELECT * FROM emplacement WHERE est_supprime = 0";
