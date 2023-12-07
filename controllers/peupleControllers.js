@@ -120,3 +120,60 @@ exports.putLivreur = (req, res) => {
         return res.json(data);
       });
 }
+
+
+exports.getUtilisateur = (req, res) => {
+    const q = "SELECT * FROM utilisateur";
+     
+    db.query(q, (error, data) => {
+        if (error) res.status(500).send(error);
+        return res.status(200).json(data);
+    });
+}
+
+exports.postUtilisateur = (req, res) => {
+    const q = 'INSERT INTO utilisateur(`username`, `email`, `img`, `password`, `role`) VALUES(?,?,?,?,?)';
+  
+    const values = [
+        req.body.username,
+        req.body.email,
+        req.body.img,
+        req.body.password,
+        req.body.role
+    ]
+    db.query(q, values, (error, data) => {
+      if (error) {
+        res.status(500).json(error);
+        console.log(error);
+      } else {
+        res.json('Processus réussi');
+      }
+    });
+}
+
+exports.deleteUtilisateur = (req, res) => {
+    const {id} = req.params;
+    const q = "DELETE FROM utilisateur WHERE id = ?"
+  
+    db.query(q, [id], (err, data)=>{
+        if (err) return res.send(err);
+      return res.json(data);
+    })
+}
+
+exports.putUtilisateur = (req, res) => {
+    const {id} = req.params;
+  const q = "UPDATE utilisateur SET `username`= ?, `email`= ?, `adresse`= ?, `img`= ?, `password`= ?, `role`= ? WHERE id = ?"
+  const values = [
+    req.body.username,
+    req.body.email,
+    req.body.img,
+    req.body.password,
+    req.body.role
+]
+
+  db.query(q, [...values,id], (err, data) => {
+      if (err) return res.send(err);
+      return res.json(data);
+    });
+}
