@@ -109,6 +109,16 @@ exports.postCategorie = (req, res) => {
     });
   };
 
+  exports.deleteCategorie = (req, res) => {
+    const {id} = req.params;
+    const q = "DELETE FROM categories WHERE id = ?"
+  
+    db.query(q, [id], (err, data)=>{
+        if (err) return res.send(err);
+      return res.json(data);
+    })
+  };
+
 
 //Emplacement
 exports.getEmplacement = (req, res) => {
@@ -136,4 +146,14 @@ exports.postEmplacement = (req, res) => {
         res.json('Processus réussi');
       }
     });
+  };
+
+  exports.deleteEmplacement = (req, res) => {
+    const {id} = req.params;
+    const q = "DELETE FROM emplacement WHERE id = ?"
+  
+    db.query(q, [id], (err, data)=>{
+        if (err) return res.send(err);
+      return res.json(data);
+    })
   };
