@@ -16,12 +16,13 @@ exports.getClient = (req, res) => {
 }
 
 exports.postClient = (req, res) => {
-    const q = 'INSERT INTO clients(`nom`, `prenom`, `adresse`, `telephone`, `email`) VALUES(?)';
+    const q = 'INSERT INTO clients(`nom`, `raison_sociale`, `adresse`, `ville`, `telephone`, `email`) VALUES(?)';
   
     const values = [
         req.body.nom,
-        req.body.prenom,
+        req.body.raison_sociale,
         req.body.adresse,
+        req.body.ville,
         req.body.telephone,
         req.body.email
     ]
@@ -48,11 +49,12 @@ exports.deleteClient = (req, res) => {
 
 exports.putClient = (req, res) => {
     const clientId = req.params.id;
-  const q = "UPDATE clients SET `nom`= ?, `prenom`= ?, `adresse`= ?, `telephone`= ?, `email`= ? WHERE id = ?"
+  const q = "UPDATE clients SET `nom`= ?, `raison_sociale`= ?, `adresse`= ?, `ville`= ?, `telephone`= ?, `email`= ? WHERE id = ?"
   const values = [
     req.body.nom,
-    req.body.prenom,
+    req.body.raison_sociale,
     req.body.adresse,
+    req.body.ville,
     req.body.telephone,
     req.body.email
     ]

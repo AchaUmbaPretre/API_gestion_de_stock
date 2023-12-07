@@ -3,7 +3,7 @@ const { getClient, postClient, putClient, deleteClient, getLivreur, postLivreur,
 
 const router = express.Router()
 
-router.get('/client', getClient)
+router.get('/', getClient)
 router.post('/client', postClient)
 router.delete('/clientDelete/:id', deleteClient)
 router.put('/client/:id', putClient)
