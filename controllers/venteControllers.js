@@ -131,7 +131,7 @@ exports.putRetour = (req, res)=> {
 //echange
 
 exports.getEchange = (req, res) => {
-    const q = `SELECT echange.*, clients.nom, produits1.nom_produit, produits2.nom_produit AS nom_produit_echange
+    const q = `SELECT echange.*, clients.nom, produits1.nom_produit,produits1.img, produits2.nom_produit AS nom_produit_echange
     FROM echange
     INNER JOIN clients ON echange.client_id = clients.id
     INNER JOIN produits AS produits1 ON echange.produit_id = produits1.id
