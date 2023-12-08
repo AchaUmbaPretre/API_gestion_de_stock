@@ -1,12 +1,14 @@
 const express = require('express')
-const { getClient, postClient, putClient, deleteClient, getLivreur, postLivreur, deleteLivreur, putLivreur, getUtilisateur, postUtilisateur, putUtilisateur } = require('../controllers/peupleControllers')
+const { getClient, postClient, putClient, deleteClient, getLivreur, postLivreur, deleteLivreur, putLivreur, getUtilisateur, postUtilisateur, putUtilisateur, getProvince } = require('../controllers/peupleControllers')
 
 const router = express.Router()
 
 router.get('/', getClient)
 router.post('/client', postClient)
-router.delete('/clientDelete/:id', deleteClient)
+router.put('/clientDelete/:id', deleteClient)
 router.put('/client/:id', putClient)
+
+router.get('/province', getProvince)
 
 router.get('/livreur', getLivreur)
 router.post('/livreur', postLivreur)

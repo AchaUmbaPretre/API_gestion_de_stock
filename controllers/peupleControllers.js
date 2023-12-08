@@ -7,7 +7,7 @@ dotenv.config();
 
 //Client
 exports.getClient = (req, res) => {
-    const q = "SELECT * FROM clients WHERE est_supprime = 0";
+    const q = "SELECT clients.*, province.nom AS nom_province FROM clients INNER JOIN province ON clients.ville = province.id WHERE est_supprime = 0";
      
     db.query(q, (error, data) => {
         if (error) res.status(500).send(error);
@@ -65,6 +65,16 @@ exports.putClient = (req, res) => {
     });
 }
 
+//Province
+
+exports.getProvince = (req, res) => {
+    const q = "SELECT * FROM province";
+     
+    db.query(q, (error, data) => {
+        if (error) res.status(500).send(error);
+        return res.status(200).json(data);
+    });
+}
 
 //Livreur
 exports.getLivreur = (req, res) => {
