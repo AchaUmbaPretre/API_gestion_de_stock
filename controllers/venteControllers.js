@@ -67,7 +67,7 @@ exports.deleteVente = (req, res) => {
       });
 }
 
-//Vente
+//Retour
 
 exports.getRetour = (req, res) => {
     const q = `SELECT retour.*, clients.nom, produits.nom_produit FROM retour
@@ -120,6 +120,64 @@ exports.putRetour = (req, res)=> {
         req.body.produit_id,
         req.body.quantite,
         req.body.motif
+    ]
+  
+    db.query(q, [...values,id], (err, data) => {
+        if (err) return res.send(err);
+        return res.json(data);
+      });
+}
+
+//echange
+
+exports.getEchange = (req, res) => {
+    const q = `SELECT * FROM echange WHERE est_supprime = 0`;
+     
+    db.query(q, (error, data) => {
+        if (error) res.status(500).send(error);
+        return res.status(200).json(data);
+    });
+}
+
+exports.postEchange = (req, res) => {
+    const q = 'INSERT INTO echange(`date_echange`, `client_id`, `produit_id`, `quantite`, `produit_echange_id`) VALUES(?,?,?,?,?)';
+  
+    const values = [
+        req.body.date_retour,
+        req.body.client_id,
+        req.body.produit_id,
+        req.body.quantite,
+        req.body.produit_echange_id
+    ]
+    db.query(q, values, (error, data) => {
+      if (error) {
+        res.status(500).json(error);
+        console.log(error);
+      } else {
+        res.json('Processus réussi');
+      }
+    });
+}
+
+exports.deleteEchange = (req, res) => {
+    const {id} = req.params;
+    const q = "UPDATE echange SET est_supprime = 1 WHERE id = ?";
+  
+    db.query(q, [id], (err, data) => {
+      if (err) return res.send(err);
+      return res.json(data);
+    });
+  };
+
+  exports.putEchange = (req, res)=> {
+    const {id} = req.params;
+    const q = "UPDATE retour SET `date_retour`= ?, `client_id`= ?, `produit_id`= ?, `quantite`= ?, `produit_echange_id`= ? WHERE id = ?"
+    const values = [
+        req.body.date_retour,
+        req.body.client_id,
+        req.body.produit_id,
+        req.body.quantite,
+        req.body.produit_echange_id
     ]
   
     db.query(q, [...values,id], (err, data) => {
