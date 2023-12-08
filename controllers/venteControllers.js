@@ -20,24 +20,46 @@ exports.getVente = (req, res) => {
 
 exports.postVente = (req, res) => {
     const q = 'INSERT INTO vente(`date_vente`, `client_id`, `produit_id`, `livreur_id`, `quantite`, `prix_unitaire`) VALUES(?,?,?,?,?,?)';
+    const selectQuery = 'SELECT quantite_stock FROM chaussures WHERE produit_id = ?';
+    const updateQuery = 'UPDATE chaussures SET quantite_stock = ? WHERE produit_id = ?';
   
     const values = [
-        req.body.date_vente,
-        req.body.client_id,
-        req.body.produit_id,
-        req.body.livreur_id,
-        req.body.quantite,
-        req.body.prix_unitaire
+      req.body.date_vente,
+      req.body.client_id,
+      req.body.produit_id,
+      req.body.livreur_id,
+      req.body.quantite,
+      req.body.prix_unitaire
     ]
+  
     db.query(q, values, (error, data) => {
       if (error) {
-        res.status(500).json(error);
         console.log(error);
+        res.status(500).json(error);
       } else {
-        res.json('Processus réussi');
+        const venteId = data.insertId;
+  
+        db.query(selectQuery, [req.body.produit_id], (selectError, selectData) => {
+          if (selectError) {
+            console.log(selectError);
+            res.status(500).json(selectError);
+          } else {
+            const currentQuantiteStock = selectData[0].quantite_stock;
+            const updatedQuantiteStock = currentQuantiteStock - req.body.quantite;
+  
+            db.query(updateQuery, [updatedQuantiteStock, req.body.produit_id], (updateError, updateData) => {
+              if (updateError) {
+                console.log(updateError);
+                res.status(500).json(updateError);
+              } else {
+                res.json('Processus réussi');
+              }
+            });
+          }
+        });
       }
     });
-}
+  }
 
 exports.deleteVente = (req, res) => {
     const {id} = req.params;
