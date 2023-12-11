@@ -17,7 +17,7 @@ exports.getProduitCount = (req, res) => {
 
 exports.getProduit = (req, res) => {
 
-    const q = 'SELECT * FROM produits INNER JOIN chaussures ON produits.id = chaussures.produit_id INNER JOIN categories ON produits.categorie = categories.id';
+    const q = 'SELECT * FROM produits INNER JOIN chaussures ON produits.id = chaussures.produit_id INNER JOIN categories ON produits.categorie = categories.id WHERE produits.est_supprime = 0';
      
     db.query(q, (error, data) => {
         if (error) res.status(500).send(error);
@@ -78,10 +78,10 @@ exports.postProduit = (req, res) => {
 }
 
 exports.deleteProduit = (req, res) => {
-    const employeeId = req.params.id;
+    const {id} = req.params;
     const q = "UPDATE produits SET est_supprime = 1 WHERE id = ?";
   
-    db.query(q, [employeeId], (err, data) => {
+    db.query(q, [id], (err, data) => {
       if (err) return res.send(err);
       return res.json(data);
     });
