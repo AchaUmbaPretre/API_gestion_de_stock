@@ -17,7 +17,11 @@ exports.getProduitCount = (req, res) => {
 
 exports.getProduit = (req, res) => {
 
-    const q = 'SELECT * FROM produits INNER JOIN chaussures ON produits.id = chaussures.produit_id INNER JOIN categories ON produits.categorie = categories.id WHERE produits.est_supprime = 0';
+    const q = `SELECT * FROM produits 
+                INNER JOIN chaussures ON produits.id = chaussures.produit_id 
+                INNER JOIN categories ON produits.categorie = categories.id
+                INNER JOIN couleur ON produits.couleur = couleur.id
+                WHERE produits.est_supprime = 0`;
      
     db.query(q, (error, data) => {
         if (error) res.status(500).send(error);
