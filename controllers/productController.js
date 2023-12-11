@@ -217,3 +217,61 @@ exports.putEmplacement = (req, res) => {
       return res.json(data);
     });
 }
+
+//Matiere
+exports.getMatiere = (req, res) => {
+
+    const q = "SELECT * FROM matiere WHERE est_supprime = 0";
+     
+    db.query(q, (error, data) => {
+        if (error) res.status(500).send(error);
+        return res.status(200).json(data);
+    });
+}
+
+exports.postMatiere = (req, res) => {
+    const q = 'INSERT INTO matiere(`nom`) VALUES(?)';
+  
+    const values = [
+        req.body.nom,
+    ]
+    db.query(q, values, (error, data) => {
+      if (error) {
+        res.status(500).json(error);
+        console.log(error);
+      } else {
+        res.json('Processus réussi');
+      }
+    });
+  };
+
+  exports.deleteMatiere = (req, res) => {
+    const { id } = req.params;
+    const q = "DELETE FROM matiere WHERE id = ?";
+  
+    db.query(q, [id], (err, data) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json(err);
+      }
+      return res.json(data);
+    });
+  };
+
+  exports.putMatiere = (req, res) => {
+    const { id } = req.params;
+    const q = "UPDATE matiere SET `nom` = ? WHERE id = ?";
+    const values = [
+      req.body.nom,
+      id
+    ];
+  
+    db.query(q, values, (err, data) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json(err);
+      }
+  
+      return res.json(data);
+    });
+  };

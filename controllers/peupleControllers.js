@@ -6,6 +6,16 @@ const moment = require('moment');
 dotenv.config();
 
 //Client
+
+exports.getClientCount = (req, res) => {
+    const q = "SELECT COUNT(*) AS total FROM clients WHERE est_supprime = 0";
+  
+    db.query(q ,(error, data)=>{
+      if(error) res.status(500).send(error)
+  
+      return res.status(200).json(data);
+  })
+}
 exports.getClient = (req, res) => {
     const q = "SELECT clients.*, province.nom AS nom_province FROM clients INNER JOIN province ON clients.ville = province.id WHERE est_supprime = 0";
      
@@ -77,6 +87,17 @@ exports.getProvince = (req, res) => {
 }
 
 //Livreur
+
+exports.getLivreurCount = (req, res) => {
+    const q = "SELECT COUNT(*) AS total FROM livreur WHERE est_supprime = 0";
+  
+    db.query(q ,(error, data)=>{
+      if(error) res.status(500).send(error)
+  
+      return res.status(200).json(data);
+  })
+}
+
 exports.getLivreur = (req, res) => {
     const q = "SELECT * FROM livreur WHERE est_supprime = 0";
      
