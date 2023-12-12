@@ -47,11 +47,12 @@ exports.getProduitView = (req,res) => {
 }
 
 exports.postProduit = (req, res) => {
-    const q = 'INSERT INTO produits(`nom_produit`,`couleur`,`matiere`,`pointure`,`categorie`,`description`,`img`) VALUES(?)';
+    const q = 'INSERT INTO produits(`nom_produit`,`couleur`,`matiere`,`marque`, `pointure`,`categorie`,`description`,`img`) VALUES(?)';
     const values = [
         req.body.nom_produit,
         req.body.couleur,
         req.body.matiere,
+        req.body.marque,
         req.body.pointure,
         req.body.categorie,
         req.body.description,
@@ -98,11 +99,12 @@ exports.deleteProduit = (req, res) => {
 
 exports.putProduit = (req, res)=> {
     const {id} = req.params;
-    const q = "UPDATE produits SET `nom_produit`= ?, `couleur`= ?, `matiere`= ?, `pointure`= ?, `categorie`= ?, `description`= ?, `img`= ? WHERE id = ?"
+    const q = "UPDATE produits SET `nom_produit`= ?, `couleur`= ?, `matiere`= ?, `marque`= ?, `pointure`= ?, `categorie`= ?, `description`= ?, `img`= ? WHERE id = ?"
     const values = [
         req.body.nom_produit,
         req.body.couleur,
         req.body.matiere,
+        req.body.marque,
         req.body.pointure,
         req.body.categorie,
         req.body.description,
