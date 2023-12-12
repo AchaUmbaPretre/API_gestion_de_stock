@@ -15,6 +15,31 @@ exports.getProduitCount = (req, res) => {
   })
 }
 
+exports.getProduitRecement = (req, res) => {
+    const q = `
+      SELECT
+        *,
+        CASE
+          WHEN chaussures.quantite_stock > 0 THEN 'Actif'
+          ELSE 'Inactif'
+        END AS statut
+      FROM
+        produits
+        INNER JOIN chaussures ON produits.id = chaussures.produit_id
+        INNER JOIN categories ON produits.categorie = categories.id
+        INNER JOIN couleur ON produits.couleur = couleur.id
+      WHERE
+        produits.est_supprime = 0
+      ORDER BY chaussures.date_entree DESC
+      LIMIT 10
+    `;
+  
+    db.query(q, (error, data) => {
+      if (error) res.status(500).send(error);
+      return res.status(200).json(data);
+    });
+  };
+
 exports.getProduit = (req, res) => {
 
     const q = `SELECT
