@@ -39,7 +39,10 @@ exports.getProduit = (req, res) => {
 
 exports.getProduitView = (req,res) => {
     const {id} = req.params;
-    const q = `SELECT *, matiere.nom AS nom_matiere, marque.nom AS nom_marque, emplacement.nom AS nom_emplacement FROM produits 
+    const q = `SELECT *, matiere.nom AS nom_matiere, marque.nom AS nom_marque, emplacement.nom AS nom_emplacement, CASE
+    WHEN chaussures.quantite_stock > 0 THEN 'Actif'
+    ELSE 'Inactif'
+    END AS statut FROM produits 
     INNER JOIN chaussures ON produits.id = chaussures.produit_id 
     INNER JOIN categories ON produits.categorie = categories.id
     INNER JOIN couleur ON produits.couleur = couleur.id

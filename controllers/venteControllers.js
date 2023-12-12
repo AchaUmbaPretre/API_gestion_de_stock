@@ -105,23 +105,45 @@ exports.getRetour = (req, res) => {
 
 exports.postRetour = (req, res) => {
     const q = 'INSERT INTO retour(`date_retour`, `client_id`, `produit_id`, `quantite`, `motif`) VALUES(?,?,?,?,?)';
+    const selectQuery = 'SELECT quantite_stock FROM chaussures WHERE produit_id = ?';
+    const updateQuery = 'UPDATE chaussures SET quantite_stock = ? WHERE produit_id = ?';
   
     const values = [
-        req.body.date_retour,
-        req.body.client_id,
-        req.body.produit_id,
-        req.body.quantite,
-        req.body.motif
+      req.body.date_retour,
+      req.body.client_id,
+      req.body.produit_id,
+      req.body.quantite,
+      req.body.motif
     ]
+  
     db.query(q, values, (error, data) => {
       if (error) {
-        res.status(500).json(error);
         console.log(error);
+        res.status(500).json(error);
       } else {
-        res.json('Processus réussi');
+        const retourId = data.insertId;
+  
+        db.query(selectQuery, [req.body.produit_id], (selectError, selectData) => {
+          if (selectError) {
+            console.log(selectError);
+            res.status(500).json(selectError);
+          } else {
+            const currentQuantiteStock = selectData[0].quantite_stock;
+            const updatedQuantiteStock = currentQuantiteStock + req.body.quantite;
+  
+            db.query(updateQuery, [updatedQuantiteStock, req.body.produit_id], (updateError, updateData) => {
+              if (updateError) {
+                console.log(updateError);
+                res.status(500).json(updateError);
+              } else {
+                res.json('Processus réussi');
+              }
+            });
+          }
+        });
       }
     });
-}
+  }
 
 exports.deleteRetour = (req, res) => {
     const {id} = req.params;
