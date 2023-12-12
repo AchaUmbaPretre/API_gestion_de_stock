@@ -18,6 +18,22 @@ exports.getVente = (req, res) => {
     });
 };
 
+exports.getVenteTotalPrix = (req, res) => {
+    const q = `
+      SELECT
+        SUM(vente.prix_unitaire) AS vente_total
+      FROM
+        vente
+      WHERE
+        vente.est_supprime = 0
+    `;
+  
+    db.query(q, (error, data) => {
+      if (error) res.status(500).send(error);
+      return res.status(200).json(data);
+    });
+  };
+
 exports.postVente = (req, res) => {
     const q = 'INSERT INTO vente(`date_vente`, `client_id`, `produit_id`, `livreur_id`, `quantite`, `prix_unitaire`) VALUES(?,?,?,?,?,?)';
     const selectQuery = 'SELECT quantite_stock FROM chaussures WHERE produit_id = ?';
