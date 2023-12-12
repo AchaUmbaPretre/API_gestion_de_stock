@@ -31,10 +31,12 @@ exports.getProduit = (req, res) => {
 
 exports.getProduitView = (req,res) => {
     const {id} = req.params;
-    const q = `SELECT * FROM produits 
+    const q = `SELECT *, matiere.nom AS nom_matiere, marque.nom AS nom_marque FROM produits 
     INNER JOIN chaussures ON produits.id = chaussures.produit_id 
     INNER JOIN categories ON produits.categorie = categories.id
     INNER JOIN couleur ON produits.couleur = couleur.id
+    INNER JOIN matiere ON produits.matiere = matiere.id
+    INNER JOIN marque ON produits.marque = marque.id
     WHERE produits.est_supprime = 0 AND produits.id = ?`;
 
     db.query(q, id, (error, data) => {
