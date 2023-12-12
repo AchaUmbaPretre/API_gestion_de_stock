@@ -190,23 +190,67 @@ exports.getEchange = (req, res) => {
 
 exports.postEchange = (req, res) => {
     const q = 'INSERT INTO echange(`date_echange`, `client_id`, `produit_id`, `quantite`, `produit_echange_id`) VALUES(?,?,?,?,?)';
+    const selectVenteQuery = 'SELECT quantite, produit_id FROM vente WHERE produit_id = ?';
+    const updateVenteQuery = 'UPDATE vente SET quantite = ?, produit_id = ? WHERE produit_id = ?';
+    const selectStockQuery = 'SELECT quantite_stock FROM chaussures WHERE produit_id = ?';
+    const updateStockQuery = 'UPDATE chaussures SET quantite_stock = ? WHERE produit_id = ?';
   
     const values = [
-        req.body.date_retour,
-        req.body.client_id,
-        req.body.produit_id,
-        req.body.quantite,
-        req.body.produit_echange_id
+      req.body.date_echange,
+      req.body.client_id,
+      req.body.produit_id,
+      req.body.quantite,
+      req.body.produit_echange_id
     ]
+  
     db.query(q, values, (error, data) => {
       if (error) {
-        res.status(500).json(error);
         console.log(error);
+        res.status(500).json(error);
       } else {
-        res.json('Processus réussi');
+        const echangeId = data.insertId;
+  
+        // Mise à jour de la vente d'origine
+        db.query(selectVenteQuery, [req.body.produit_id], (selectVenteError, selectVenteData) => {
+          if (selectVenteError) {
+            console.log(selectVenteError);
+            res.status(500).json(selectVenteError);
+          } else {
+            const currentQuantiteVente = selectVenteData[0].quantite;
+            const updatedQuantiteVente = currentQuantiteVente - req.body.quantite;
+            const updatedProduitId = req.body.produit_echange_id;
+  
+            db.query(updateVenteQuery, [updatedQuantiteVente, updatedProduitId, req.body.produit_id], (updateVenteError, updateVenteData) => {
+              if (updateVenteError) {
+                console.log(updateVenteError);
+                res.status(500).json(updateVenteError);
+              } else {
+                // Mise à jour du stock
+                db.query(selectStockQuery, [req.body.produit_id], (selectStockError, selectStockData) => {
+                  if (selectStockError) {
+                    console.log(selectStockError);
+                    res.status(500).json(selectStockError);
+                  } else {
+                    const currentQuantiteStock = selectStockData[0].quantite_stock;
+                    const updatedQuantiteStock = currentQuantiteStock + req.body.quantite;
+  
+                    db.query(updateStockQuery, [updatedQuantiteStock, req.body.produit_id], (updateStockError, updateStockData) => {
+                      if (updateStockError) {
+                        console.log(updateStockError);
+                        res.status(500).json(updateStockError);
+                      } else {
+                        res.json('Processus réussi');
+                      }
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
       }
     });
-}
+  }
 
 exports.deleteEchange = (req, res) => {
     const {id} = req.params;
