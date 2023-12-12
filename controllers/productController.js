@@ -284,3 +284,60 @@ exports.postMatiere = (req, res) => {
       return res.json(data);
     });
   };
+
+  //Marque
+exports.getMarque = (req, res) => {
+
+    const q = "SELECT * FROM marque ";
+     
+    db.query(q, (error, data) => {
+        if (error) res.status(500).send(error);
+        return res.status(200).json(data);
+    });
+}
+
+exports.postMarque = (req, res) => {
+    const q = 'INSERT INTO marque(`nom`) VALUES(?)';
+  
+    const values = [
+        req.body.nom,
+    ]
+    db.query(q, values, (error, data) => {
+      if (error) {
+        res.status(500).json(error);
+        console.log(error);
+      } else {
+        res.json('Processus réussi');
+      }
+    });
+  };
+
+exports.deleteMarque = (req, res) => {
+    const { id } = req.params;
+    const q = "DELETE FROM marque WHERE id = ?";
+  
+    db.query(q, [id], (err, data) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json(err);
+      }
+      return res.json(data);
+    });
+  };
+
+exports.putMarque = (req, res) => {
+    const { id } = req.params;
+    const q = "UPDATE marque SET `nom` = ? WHERE id = ?";
+    const values = [
+      req.body.nom,
+      id
+    ];
+  
+    db.query(q, values, (err, data) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json(err);
+      }
+      return res.json(data);
+    });
+  };
