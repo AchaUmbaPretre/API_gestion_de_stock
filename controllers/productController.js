@@ -31,7 +31,11 @@ exports.getProduit = (req, res) => {
 
 exports.getProduitView = (req,res) => {
     const {id} = req.params;
-    const q = 'SELECT * FROM produits INNER JOIN chaussures ON produits.id = chaussures.produit_id INNER JOIN categories ON produits.categorie = categories.id WHERE produits.id = ?';
+    const q = `SELECT * FROM produits 
+    INNER JOIN chaussures ON produits.id = chaussures.produit_id 
+    INNER JOIN categories ON produits.categorie = categories.id
+    INNER JOIN couleur ON produits.couleur = couleur.id
+    WHERE produits.est_supprime = 0 AND produits.id = ?`;
 
     db.query(q, id, (error, data) => {
         if (error) {
