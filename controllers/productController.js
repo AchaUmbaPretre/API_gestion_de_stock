@@ -61,6 +61,7 @@ exports.getProduit = (req, res) => {
 };
 
 exports.getProduitSelect = (req, res) => {
+    console.log(req.query)
 
     const q = `SELECT *, matiere.nom AS nom_matiere, marque.nom AS nom_marque, emplacement.nom AS nom_emplacement, CASE
     WHEN chaussures.quantite_stock > 0 THEN 'Actif'
@@ -72,7 +73,16 @@ exports.getProduitSelect = (req, res) => {
     INNER JOIN matiere ON produits.matiere = matiere.id
     INNER JOIN marque ON produits.marque = marque.id
     INNER JOIN emplacement ON chaussures.emplacement = emplacement.id
-    WHERE produits.est_supprime = 0`
+    WHERE produits.est_supprime = 0
+        AND
+        produits.nom_produit = ?
+        AND
+        produits.categorie = ?
+        AND
+        produits.couleur = ?
+        AND
+        produits.prix = ?
+    `
      
     db.query(q, (error, data) => {
         if (error) res.status(500).send(error);
