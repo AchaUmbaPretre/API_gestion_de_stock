@@ -340,18 +340,21 @@ exports.deleteEmplacement = (req, res) => {
   };
 
 exports.putEmplacement = (req, res) => {
-    const {id} = req.params;
-  const q = "UPDATE emplacement SET `nom`= ?, `capacite= ? WHERE id = ?"
-  const values = [
-    req.body.nom,
-    req.body.capacite
-    ]
+    const { id } = req.params;
+  
+    const q = "UPDATE emplacement SET `nom` = ?, `capacite` = ? WHERE id = ?";
+    const values = [
+      req.body.nom,
+      req.body.capacite
+    ];
 
-  db.query(q, [...values,id], (err, data) => {
+    console.log(values)
+  
+    db.query(q, [...values, id], (err, data) => {
       if (err) return res.send(err);
       return res.json(data);
     });
-}
+  };
 
 //Matiere
 exports.getMatiere = (req, res) => {

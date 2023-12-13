@@ -23,7 +23,7 @@ router.get('/emplacement', getEmplacement)
 router.get('/emplacementOne/:id', getEmplacementOne)
 router.post('/emplacement', postEmplacement)
 router.delete('/emplacement/:id', deleteEmplacement)
-router.put('/categorie/:id', putEmplacement)
+router.put('/emplacementPut/:id', putEmplacement)
 
 router.get('/matiere', getMatiere)
 router.post('/matiere', postMatiere)
