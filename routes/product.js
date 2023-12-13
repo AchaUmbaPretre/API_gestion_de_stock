@@ -14,7 +14,7 @@ router.put('/produit/:id', putProduit)
 router.get('/couleur', getCouleur);
 
 router.get('/categorie', getCategorie);
-router.get('/categorieOne/', getCategorieOne);
+router.get('/categorieOne/:id', getCategorieOne);
 router.post('/categorie', postCategorie)
 router.delete('/categorie/:id', deleteCategorie)
 router.put('/categorie/:id', putCategorie)
