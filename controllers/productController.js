@@ -171,7 +171,7 @@ exports.deleteProduit = (req, res) => {
   };
 
   exports.putProduit = (req, res) => {
-    const productId = req.params.id; // Récupérer l'ID du produit à mettre à jour
+    const productId = req.params.id;
   
     const q = 'UPDATE produits SET nom_produit = ?, couleur = ?, matiere = ?, marque = ?, pointure = ?, categorie = ?, description = ?, img = ? WHERE id = ?';
     const values = [
@@ -183,7 +183,7 @@ exports.deleteProduit = (req, res) => {
       req.body.categorie,
       req.body.description,
       req.body.img,
-      productId // Utiliser l'ID du produit pour filtrer la mise à jour
+      productId 
     ];
   
     db.query(q, values, (error, data) => {
@@ -197,13 +197,12 @@ exports.deleteProduit = (req, res) => {
           return res.status(404).json({ error: 'Produit non trouvé' });
         }
   
-        // Mettre à jour les données de la chaussure associée si nécessaire
         const shoeQ = 'UPDATE chaussures SET quantite_stock = ?, emplacement = ?, prix = ? WHERE produit_id = ?';
         const shoeValues = [
           req.body.quantite_stock,
           req.body.emplacement,
           req.body.prix,
-          productId // Utiliser l'ID du produit pour filtrer la mise à jour de la chaussure
+          productId 
         ];
   
         db.query(shoeQ, shoeValues, (error, data) => {
