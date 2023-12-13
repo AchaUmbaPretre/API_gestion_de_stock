@@ -170,25 +170,54 @@ exports.deleteProduit = (req, res) => {
     });
   };
 
-exports.putProduit = (req, res)=> {
-    const {id} = req.params;
-    const q = "UPDATE produits SET `nom_produit`= ?, `couleur`= ?, `matiere`= ?, `marque`= ?, `pointure`= ?, `categorie`= ?, `description`= ?, `img`= ? WHERE id = ?"
-    const values = [
-        req.body.nom_produit,
-        req.body.couleur,
-        req.body.matiere,
-        req.body.marque,
-        req.body.pointure,
-        req.body.categorie,
-        req.body.description,
-        req.body.img
-    ]
+  exports.putProduit = (req, res) => {
+    const productId = req.params.id; // Récupérer l'ID du produit à mettre à jour
   
-    db.query(q, [...values,id], (err, data) => {
-        if (err) return res.send(err);
-        return res.json(data);
-      });
-}
+    const q = 'UPDATE produits SET nom_produit = ?, couleur = ?, matiere = ?, marque = ?, pointure = ?, categorie = ?, description = ?, img = ? WHERE id = ?';
+    const values = [
+      req.body.nom_produit,
+      req.body.couleur,
+      req.body.matiere,
+      req.body.marque,
+      req.body.pointure,
+      req.body.categorie,
+      req.body.description,
+      req.body.img,
+      productId // Utiliser l'ID du produit pour filtrer la mise à jour
+    ];
+  
+    db.query(q, values, (error, data) => {
+      if (error) {
+        console.log(error);
+        res.status(500).json(error);
+      } else {
+        const updatedRows = data.affectedRows;
+  
+        if (updatedRows === 0) {
+          return res.status(404).json({ error: 'Produit non trouvé' });
+        }
+  
+        // Mettre à jour les données de la chaussure associée si nécessaire
+        const shoeQ = 'UPDATE chaussures SET quantite_stock = ?, emplacement = ?, prix = ? WHERE produit_id = ?';
+        const shoeValues = [
+          req.body.quantite_stock,
+          req.body.emplacement,
+          req.body.prix,
+          productId // Utiliser l'ID du produit pour filtrer la mise à jour de la chaussure
+        ];
+  
+        db.query(shoeQ, shoeValues, (error, data) => {
+          if (error) {
+            console.error('Erreur lors de la mise à jour des données de la chaussure :', error);
+            res.status(500).json({ error: 'Erreur lors de la mise à jour des données de la chaussure' });
+            return;
+          }
+  
+          return res.json({ message: 'Produit mis à jour avec succès' });
+        });
+      }
+    });
+  };
 
 
 //Couleur
