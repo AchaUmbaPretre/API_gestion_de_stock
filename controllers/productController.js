@@ -301,6 +301,17 @@ exports.getEmplacement = (req, res) => {
     });
 }
 
+exports.getEmplacementOne = (req, res) => {
+    const {id} = req.params;
+
+    const q = "SELECT * FROM emplacement WHERE est_supprime = 0 AND id =?";
+     
+    db.query(q, id,(error, data) => {
+        if (error) res.status(500).send(error);
+        return res.status(200).json(data);
+    });
+}
+
 exports.postEmplacement = (req, res) => {
     const q = 'INSERT INTO emplacement(`nom`, `capacite`) VALUES(?,?)';
   
