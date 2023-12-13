@@ -1,5 +1,5 @@
 const express = require("express");
-const { getProduit, postProduit, deleteProduit, getCategorie, postCategorie, getEmplacement, postEmplacement, putProduit, deleteCategorie, deleteEmplacement, putCategorie, putEmplacement, getCouleur, getProduitView, getProduitCount, getMatiere, postMatiere, deleteMatiere, putMatiere, getMarque, postMarque, deleteMarque, putMarque, getProduitRecement, getProduitSelect } = require("../controllers/productController.js");
+const { getProduit, postProduit, deleteProduit, getCategorie, postCategorie, getEmplacement, postEmplacement, putProduit, deleteCategorie, deleteEmplacement, putCategorie, putEmplacement, getCouleur, getProduitView, getProduitCount, getMatiere, postMatiere, deleteMatiere, putMatiere, getMarque, postMarque, deleteMarque, putMarque, getProduitRecement, getProduitSelect, getCategorieOne } = require("../controllers/productController.js");
 const router = express.Router();
 
 router.get('/', getProduit)
@@ -14,6 +14,7 @@ router.put('/produit/:id', putProduit)
 router.get('/couleur', getCouleur);
 
 router.get('/categorie', getCategorie);
+router.get('/categorieOne/', getCategorieOne);
 router.post('/categorie', postCategorie)
 router.delete('/categorie/:id', deleteCategorie)
 router.put('/categorie/:id', putCategorie)

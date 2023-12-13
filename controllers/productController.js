@@ -241,6 +241,17 @@ exports.getCategorie = (req, res) => {
     });
 }
 
+exports.getCategorieOne = (req, res) => {
+    const {id} = req.params;
+
+    const q = "SELECT * FROM categories WHERE est_supprime = 0 AND id = ?";
+     
+    db.query(q, id, (error, data) => {
+        if (error) res.status(500).send(error);
+        return res.status(200).json(data);
+    });
+}
+
 exports.postCategorie = (req, res) => {
     const q = 'INSERT INTO categories(`nom_categorie`) VALUES (?)';
   
