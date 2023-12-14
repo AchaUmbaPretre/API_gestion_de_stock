@@ -18,6 +18,21 @@ exports.getVente = (req, res) => {
     });
 };
 
+exports.getVenteOne = (req, res) => {
+    const {id} = req.params;
+
+    const q = `SELECT vente.*, clients.nom AS nom_client, produits.nom_produit, produits.img, livreur.prenom FROM vente 
+    INNER JOIN clients ON vente.client_id = clients.id
+    INNER JOIN produits ON vente.produit_id = produits.id
+    INNER JOIN livreur ON vente.livreur_id = livreur.id
+    WHERE vente.est_supprime = 0 AND vente.id = ?`;
+     
+    db.query(q, id,(error, data) => {
+        if (error) res.status(500).send(error);
+        return res.status(200).json(data);
+    });
+};
+
 exports.getVenteTotalPrix = (req, res) => {
     const q = `
       SELECT
