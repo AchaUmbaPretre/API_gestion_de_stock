@@ -1,5 +1,5 @@
 const express = require("express");
-const { getProduit, postProduit, deleteProduit, getCategorie, postCategorie, getEmplacement, postEmplacement, putProduit, deleteCategorie, deleteEmplacement, putCategorie, putEmplacement, getCouleur, getProduitView, getProduitCount, getMatiere, postMatiere, deleteMatiere, putMatiere, getMarque, postMarque, deleteMarque, putMarque, getProduitRecement, getProduitSelect, getCategorieOne, getEmplacementOne } = require("../controllers/productController.js");
+const { getProduit, postProduit, deleteProduit, getCategorie, postCategorie, getEmplacement, postEmplacement, putProduit, deleteCategorie, deleteEmplacement, putCategorie, putEmplacement, getCouleur, getProduitView, getProduitCount, getMatiere, postMatiere, deleteMatiere, putMatiere, getMarque, postMarque, deleteMarque, putMarque, getProduitRecement, getProduitSelect, getCategorieOne, getEmplacementOne, getMatiereOne, getMarqueOne } = require("../controllers/productController.js");
 const router = express.Router();
 
 router.get('/', getProduit)
@@ -26,11 +26,13 @@ router.delete('/emplacement/:id', deleteEmplacement)
 router.put('/emplacementPut/:id', putEmplacement)
 
 router.get('/matiere', getMatiere)
+router.get('/matiereOne/:id', getMatiereOne)
 router.post('/matiere', postMatiere)
 router.delete('/matiere/:id', deleteMatiere)
-router.put('/matiere/:id', putMatiere)
+router.put('/matiereUpdate/:id', putMatiere)
 
 router.get('/marque', getMarque)
+router.get('/marqueOne/:id', getMarqueOne)
 router.post('/marque', postMarque)
 router.delete('/marque/:id', deleteMarque)
 router.put('/marque/:id', putMarque)
