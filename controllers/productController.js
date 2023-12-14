@@ -277,7 +277,7 @@ exports.deleteCategorie = (req, res) => {
     })
   };
 
-  exports.putCategorie = (req, res) => {
+exports.putCategorie = (req, res) => {
     const {id} = req.params;
   const q = "UPDATE categories SET `nom_categorie`= ? WHERE id = ?"
   const { nom_categorie } = req.body;
@@ -347,8 +347,6 @@ exports.putEmplacement = (req, res) => {
       req.body.nom,
       req.body.capacite
     ];
-
-    console.log(values)
   
     db.query(q, [...values, id], (err, data) => {
       if (err) return res.send(err);

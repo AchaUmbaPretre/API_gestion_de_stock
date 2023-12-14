@@ -17,7 +17,7 @@ router.get('/categorie', getCategorie);
 router.get('/categorieOne/:id', getCategorieOne);
 router.post('/categorie', postCategorie)
 router.delete('/categorie/:id', deleteCategorie)
-router.put('/categorie/:id', putCategorie)
+router.put('/categoriePut/:id', putCategorie)
 
 router.get('/emplacement', getEmplacement)
 router.get('/emplacementOne/:id', getEmplacementOne)
