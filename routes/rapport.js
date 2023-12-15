@@ -3,6 +3,6 @@ const { getRapport, getRapportVente, getRapportAchats } = require('../controller
 const router = express.Router();
 
 router.get('/', getRapportVente);
-router.get('/rapportAcha', getRapportAchats);
+router.get('/rapportDachats', getRapportAchats);
 
 module.exports = router;

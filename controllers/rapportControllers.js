@@ -24,7 +24,7 @@ exports.getRapportVente = (req, res) => {
 
 exports.getRapportAchats = (req, res) => {
 
-    const q = `SELECT p.id, p.nom_produit AS nom_produit, SUM(a.quantite) AS quantite_totale_achetee, 
+    const q = `SELECT p.id, p.nom_produit AS nom_produit, p.img, SUM(a.quantite) AS quantite_totale_achetee, 
                     SUM(a.quantite * a.prix_unitaire) AS montant_total_achat, 
                     c.quantite_stock AS quantite_en_stock
                 FROM vente a
