@@ -12,6 +12,7 @@ exports.getRapportVente = (req, res) => {
     INNER JOIN produits ON vente.produit_id = produits.id 
     INNER JOIN chaussures ON vente.produit_id = chaussures.produit_id 
     INNER JOIN categories ON produits.categorie = categories.id
+    INNER JOIN marque ON produits.marque = marque.id
     WHERE vente.est_supprime = 0 
     GROUP BY vente.id;`
      
