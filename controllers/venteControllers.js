@@ -123,7 +123,7 @@ exports.deleteVente = (req, res) => {
 //Retour
 
 exports.getRetour = (req, res) => {
-    const q = `SELECT retour.*, clients.nom, produits.nom_produit FROM retour
+    const q = `SELECT retour.*, clients.nom, produits.nom_produit, produits.img FROM retour
         INNER JOIN clients ON retour.client_id = clients.id
         INNER JOIN produits ON retour.produit_id = produits.id
         WHERE retour.est_supprime = 0`;
