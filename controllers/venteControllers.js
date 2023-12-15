@@ -323,19 +323,22 @@ exports.deleteEchange = (req, res) => {
     });
   };
 
-  exports.putEchange = (req, res)=> {
-    const {id} = req.params;
-    const q = "UPDATE retour SET `date_retour`= ?, `client_id`= ?, `produit_id`= ?, `quantite`= ?, `produit_echange_id`= ? WHERE id = ?"
+  exports.putEchange = (req, res) => {
+    const { id } = req.params;
+    const q = "UPDATE echange SET `date_echange`= ?, `client_id`= ?, `produit_id`= ?, `quantite`= ?, `produit_echange_id`= ? WHERE id = ?";
     const values = [
-        req.body.date_retour,
-        req.body.client_id,
-        req.body.produit_id,
-        req.body.quantite,
-        req.body.produit_echange_id
-    ]
+        new Date(),
+      req.body.client_id,
+      req.body.produit_id,
+      req.body.quantite,
+      req.body.produit_echange_id
+    ];
   
-    db.query(q, [...values,id], (err, data) => {
-        if (err) return res.send(err);
-        return res.json(data);
-      });
-}
+    db.query(q, [...values, id], (err, data) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json(err);
+      }
+      return res.json(data);
+    });
+  };
