@@ -134,6 +134,20 @@ exports.getRetour = (req, res) => {
     });
 }
 
+exports.getRetourOne = (req, res) => {
+    const {id} = req.params;
+
+    const q = `SELECT retour.*, clients.nom, produits.nom_produit FROM retour
+        INNER JOIN clients ON retour.client_id = clients.id
+        INNER JOIN produits ON retour.produit_id = produits.id
+        WHERE retour.est_supprime = 0 AND retour.id = ?`;
+     
+    db.query(q, id, (error, data) => {
+        if (error) res.status(500).send(error);
+        return res.status(200).json(data);
+    });
+}
+
 exports.postRetour = (req, res) => {
     const q = 'INSERT INTO retour(`date_retour`, `client_id`, `produit_id`, `quantite`, `motif`) VALUES(?,?,?,?,?)';
     const selectQuery = 'SELECT quantite_stock FROM chaussures WHERE produit_id = ?';
@@ -214,6 +228,22 @@ exports.getEchange = (req, res) => {
     WHERE echange.est_supprime = 0;`
      
     db.query(q, (error, data) => {
+        if (error) res.status(500).send(error);
+        return res.status(200).json(data);
+    });
+}
+
+exports.getEchangeOne = (req, res) => {
+    const {id} = req.params;
+
+    const q = `SELECT echange.*, clients.nom, produits1.nom_produit,produits1.img, produits2.nom_produit AS nom_produit_echange
+    FROM echange
+    INNER JOIN clients ON echange.client_id = clients.id
+    INNER JOIN produits AS produits1 ON echange.produit_id = produits1.id
+    INNER JOIN produits AS produits2 ON echange.produit_echange_id = produits2.id
+    WHERE echange.est_supprime = 0 AND echange.id = ?`
+     
+    db.query(q, id,(error, data) => {
         if (error) res.status(500).send(error);
         return res.status(200).json(data);
     });
