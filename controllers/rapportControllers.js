@@ -5,8 +5,14 @@ const moment = require('moment');
 
 dotenv.config();
 
-exports.getRapport = (req, res) => {
-    const q = "SELECT * FROM clients WHERE est_supprime = 0";
+exports.getRapportVente = (req, res) => {
+
+    const q = `SELECT vente.id, vente.date_vente, produits.nom_produit AS nom_produit, vente.quantite AS quantite_vendue, vente.prix_unitaire AS prix_unitaire, (vente.quantite * vente.prix_unitaire) AS 
+    montant_total, (chaussures.quantite_stock - SUM(vente.quantite)) AS quantite_restante FROM vente 
+    INNER JOIN produits ON vente.produit_id = produits.id 
+    INNER JOIN chaussures ON vente.produit_id = chaussures.produit_id 
+    WHERE vente.est_supprime = 0 
+    GROUP BY vente.id;`
      
     db.query(q, (error, data) => {
         if (error) res.status(500).send(error);
