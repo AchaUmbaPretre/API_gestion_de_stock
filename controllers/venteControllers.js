@@ -142,7 +142,7 @@ exports.getRetourOne = (req, res) => {
         INNER JOIN produits ON retour.produit_id = produits.id
         WHERE retour.est_supprime = 0 AND retour.id = ?`;
      
-    db.query(q, id, (error, data) => {
+    db.query(q, [id],(error, data) => {
         if (error) res.status(500).send(error);
         return res.status(200).json(data);
     });
