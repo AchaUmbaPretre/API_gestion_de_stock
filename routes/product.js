@@ -3,7 +3,7 @@ const { getProduit, postProduit, deleteProduit, getCategorie, postCategorie, get
 const router = express.Router();
 
 router.get('/', getProduit)
-router.get('/produitTotalVente', getProduitTotalAchats)
+router.get('/produitTotalAchats', getProduitTotalAchats)
 router.get('/produitCount', getProduitCount)
 router.get('/produitSelect', getProduitSelect)
 router.get('/produitRecement', getProduitRecement)
