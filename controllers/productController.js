@@ -15,7 +15,7 @@ exports.getProduitCount = (req, res) => {
   })
 }
 
-exports.getProductTotalAchats = (req, res) => {
+exports.getProduitTotalAchats = (req, res) => {
     const q = `
       SELECT
         SUM(prix) AS achats_total
@@ -24,7 +24,7 @@ exports.getProductTotalAchats = (req, res) => {
       WHERE
         est_supprime = 0
     `;
-    
+
     db.query(q, (error, data) => {
       if (error) res.status(500).send(error);
       return res.status(200).json(data);
