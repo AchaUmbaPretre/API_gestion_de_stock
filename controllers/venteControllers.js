@@ -121,7 +121,6 @@ exports.deleteVente = (req, res) => {
 }
 
 //Retour
-
 exports.getRetour = (req, res) => {
     const q = `SELECT retour.*, clients.nom, produits.nom_produit, produits.img FROM retour
         INNER JOIN clients ON retour.client_id = clients.id
@@ -136,7 +135,6 @@ exports.getRetour = (req, res) => {
 
 exports.getRetourOne = (req, res) => {
     const {id} = req.params;
-
     const q = `SELECT retour.*, clients.nom, produits.nom_produit FROM retour
         INNER JOIN clients ON retour.client_id = clients.id
         INNER JOIN produits ON retour.produit_id = produits.id
@@ -147,6 +145,7 @@ exports.getRetourOne = (req, res) => {
         return res.status(200).json(data);
     });
 }
+
 
 exports.postRetour = (req, res) => {
     const q = 'INSERT INTO retour(`date_retour`, `client_id`, `produit_id`, `quantite`, `motif`) VALUES(?,?,?,?,?)';
@@ -173,8 +172,8 @@ exports.postRetour = (req, res) => {
             console.log(selectError);
             res.status(500).json(selectError);
           } else {
-            const currentQuantiteStock = selectData[0].quantite_stock;
-            const updatedQuantiteStock = currentQuantiteStock + req.body.quantite;
+            const currentQuantiteStock = parseInt(selectData[0].quantite_stock);
+            const updatedQuantiteStock = currentQuantiteStock + parseInt(req.body.quantite);
   
             db.query(updateQuery, [updatedQuantiteStock, req.body.produit_id], (updateError, updateData) => {
               if (updateError) {
@@ -189,7 +188,6 @@ exports.postRetour = (req, res) => {
       }
     });
   }
-
 exports.deleteRetour = (req, res) => {
     const {id} = req.params;
     const q = "UPDATE retour SET est_supprime = 1 WHERE id = ?";
