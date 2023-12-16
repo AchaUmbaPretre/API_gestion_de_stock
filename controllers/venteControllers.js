@@ -5,6 +5,8 @@ const moment = require('moment');
 
 dotenv.config();
 
+
+//Vente
 exports.getVente = (req, res) => {
     const q = `SELECT vente.*, clients.nom AS nom_client, produits.nom_produit, produits.img, livreur.prenom FROM vente 
     INNER JOIN clients ON vente.client_id = clients.id
@@ -151,7 +153,7 @@ exports.postRetour = (req, res) => {
     const q = 'INSERT INTO retour(`date_retour`, `client_id`, `produit_id`, `quantite`, `motif`) VALUES(?,?,?,?,?)';
     const selectQuery = 'SELECT quantite_stock FROM chaussures WHERE produit_id = ?';
     const updateQuery = 'UPDATE chaussures SET quantite_stock = ? WHERE produit_id = ?';
-  
+
     const values = [
       req.body.date_retour,
       req.body.client_id,
@@ -188,7 +190,7 @@ exports.postRetour = (req, res) => {
       }
     });
   }
-  
+
 exports.deleteRetour = (req, res) => {
     const {id} = req.params;
     const q = "UPDATE retour SET est_supprime = 1 WHERE id = ?";
@@ -217,7 +219,6 @@ exports.putRetour = (req, res)=> {
 }
 
 //echange
-
 exports.getEchange = (req, res) => {
     const q = `SELECT echange.*, clients.nom, produits1.nom_produit,produits1.img, produits2.nom_produit AS nom_produit_echange
     FROM echange
