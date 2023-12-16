@@ -188,6 +188,7 @@ exports.postRetour = (req, res) => {
       }
     });
   }
+  
 exports.deleteRetour = (req, res) => {
     const {id} = req.params;
     const q = "UPDATE retour SET est_supprime = 1 WHERE id = ?";
