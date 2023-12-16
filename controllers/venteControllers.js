@@ -153,6 +153,8 @@ exports.postRetour = (req, res) => {
     const q = 'INSERT INTO retour(`date_retour`, `client_id`, `produit_id`, `quantite`, `motif`) VALUES(?,?,?,?,?)';
     const selectQuery = 'SELECT quantite_stock FROM chaussures WHERE produit_id = ?';
     const updateQuery = 'UPDATE chaussures SET quantite_stock = ? WHERE produit_id = ?';
+    const selectQueryVente = 'SELECT quantite FROM vente WHERE produit_id = ?';
+    const updateQueryVente = 'UPDATE vente SET quantite = ? WHERE produit_id = ?';
 
     const values = [
       req.body.date_retour,
@@ -182,6 +184,21 @@ exports.postRetour = (req, res) => {
                 console.log(updateError);
                 res.status(500).json(updateError);
               } else {
+
+                db.query(selectQueryVente, [req.body.produit_id], (selectError, selectData)=>{
+                    if(selectError){
+                        console.log(selectError);
+                    } else{
+                        const currentQuantiteVenteStock = parseInt(selectData[0].quantite);
+                        const updatedQuantiteVenteStock = currentQuantiteVenteStock - parseInt(req.body.quantite);
+
+                        db.query(updateQueryVente, [updatedQuantiteVenteStock, req.body.produit_id], (updateError, updateData) =>{
+                            if (updateError){
+                                console.log(updateError);
+                            }
+                        })
+                    }
+                })
                 res.json('Processus réussi');
               }
             });
