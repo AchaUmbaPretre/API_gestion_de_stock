@@ -21,8 +21,6 @@ exports.getProduitTotalAchats = (req, res) => {
         SUM(prix) AS achats_total
       FROM
         chaussures
-      WHERE
-        est_supprime = 0
     `;
 
     db.query(q, (error, data) => {
