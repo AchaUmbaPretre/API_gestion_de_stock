@@ -6,29 +6,29 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 exports.register = (req, res) => {
-    const q = 'SELECT * FROM users WHERE email = ? OR username = ?';
-    db.query(q, [req.body.email, req.body.name], (error, data) => {
-        if (error) return res.json(error);
-        if (data.length)
-            return res.status(409).send({
-                message: "L'utilisateur existe déjà",
-                success: false,
-            });
+  const q = 'SELECT * FROM utilisateur WHERE email = ? OR username = ?';
+  db.query(q, [req.body.email, req.body.username], (error, data) => {
+    if (error) return res.json(error);
+    if (data.length)
+      return res.status(409).send({
+        message: "L'utilisateur existe déjà",
+        success: false,
+      });
 
-        const salt = bcrypt.genSaltSync(10);
-        const hash = bcrypt.hashSync(req.body.password, salt);
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(req.body.password, salt);
 
-        const insertQuery = 'INSERT INTO users(`username`,`email`,`password`) VALUES (?)';
-        const values = [req.body.username, req.body.email, hash];
+    const insertQuery = 'INSERT INTO utilisateur(`username`, `email`, `password`, `role`) VALUES (?,?,?,?)';
+    const values = [req.body.username, req.body.email, hash, req.body.role];
 
-        db.query(insertQuery, [values], (error, data) => {
-            if (error) return res.json(error);
-            return res.status(200).send({
-                message: "L'utilisateur a été créé",
-                success: true,
-            });
-        });
+    db.query(insertQuery, values, (error, data) => {
+      if (error) return res.json(error);
+      return res.status(200).send({
+        message: "L'utilisateur a été créé",
+        success: true,
+      });
     });
+  });
 };
 
 exports.login = (req, res) => {
@@ -71,9 +71,29 @@ exports.login = (req, res) => {
     });
   };
 
+//Get login
+exports.getLogin = (req, res) => {
+
+  const q = "SELECT * FROM utilisateur ";
+   
+  db.query(q, (error, data) => {
+      if (error) res.status(500).send(error);
+      return res.status(200).json(data);
+  });
+}
 exports.logout = (req, res) => {
     res.clearCookie('access_token', {
         sameTime: 'none',
         secure: true,
     }).status(200).json('Utilisateur est déconnecté');
 };
+
+exports.deleteUser = (req, res) => {
+  const {id} = req.params;
+  const q = "DELETE FROM utilisateur WHERE id = ?"
+
+  db.query(q, [id], (err, data)=>{
+      if (err) return res.send(err);
+    return res.json(data);
+  })
+}
