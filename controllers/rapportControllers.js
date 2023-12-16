@@ -8,7 +8,7 @@ dotenv.config();
 exports.getRapportVente = (req, res) => {
 
     const q = `SELECT vente.id, produits.nom_produit AS nom_produit,produits.img, categories.nom_categorie, marque.nom, vente.quantite AS quantite_vendue, vente.prix_unitaire AS prix_unitaire, (vente.quantite * vente.prix_unitaire) AS 
-    montant_total, (chaussures.quantite_stock - SUM(vente.quantite)) AS quantite_restante FROM vente 
+    montant_total, (chaussures.quantite_stock) AS quantite_restante FROM vente 
     INNER JOIN produits ON vente.produit_id = produits.id 
     INNER JOIN chaussures ON vente.produit_id = chaussures.produit_id 
     INNER JOIN categories ON produits.categorie = categories.id
